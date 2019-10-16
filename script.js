@@ -2,6 +2,7 @@ let app = new Vue({
   el: '#app',
   data: {
     number: '',
+    max: '',
     current: {
       title: '',
       img: '',
@@ -11,6 +12,38 @@ let app = new Vue({
   },
   created() {
     this.xkcd();
+  },
+  methods: {
+       async xkcd() {
+      try {
+        this.loading = true;
+        const response = await axios.get('https://xkcdapi.now.sh/' + this.number);
+        this.current = response.data;
+        this.loading = false;
+        this.number = response.data.num;
+      } catch (error) {
+        this.number = this.max;
+        console.log(error);
+      }
+    },
+    previousComic() {
+      this.number = this.current.num - 1;
+      if (this.number < 1)
+        this.number = 1;
+    },
+    nextComic() {
+      this.number = this.current.num + 1;
+      if (this.number > this.max)
+        this.number = this.max
+    },
+    getRandom(min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum and minimum are inclusive
+    },
+    randomComic() {
+      this.number = this.getRandom(1, this.max);
+    }
   },
     computed: {
     month() {
@@ -32,17 +65,14 @@ let app = new Vue({
       return month[this.current.month - 1];
     }
   },
-  methods: {
-       async xkcd() {
-      try {
-        this.loading = true;
-        const response = await axios.get('https://xkcdapi.now.sh/' + this.number);
-        this.current = response.data;
-        this.loading = false;
-        this.number = response.data.num;
-      } catch (error) {
-        console.log(error);
+   watch: {
+    number(value, oldvalue) {
+      if (oldvalue === '') {
+        this.max = value;
+      } else {
+        this.xkcd();
       }
     },
   }
+
 });
