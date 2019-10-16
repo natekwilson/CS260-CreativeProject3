@@ -9,6 +9,9 @@ let app = new Vue({
       alt: ''
     },
     loading: true,
+    addedName: '',
+    addedComment: '',
+    comments: {},
   },
   created() {
     this.xkcd();
@@ -43,7 +46,17 @@ let app = new Vue({
     },
     randomComic() {
       this.number = this.getRandom(1, this.max);
-    }
+    },
+     addComment() {
+      if (!(this.number in this.comments))
+        Vue.set(app.comments, this.number, new Array);
+      this.comments[this.number].push({
+        author: this.addedName,
+        text: this.addedComment
+      });
+      this.addedName = '';
+      this.addedComment = '';
+    },
   },
     computed: {
     month() {
