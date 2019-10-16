@@ -7,20 +7,21 @@ let app = new Vue({
       img: '',
       alt: ''
     },
+    loading: true,
   },
   created() {
     this.xkcd();
   },
   methods: {
-    xkcd() {
-      axios.get('https://xkcdapi.now.sh/' + this.number)
-        .then(response => {
-          this.current = response.data;
-          return true;
-        })
-        .catch(error => {
-          console.log(error)
-        });
-    }
+        async xkcd() {
+      try {
+        this.loading = true;
+        const response = await axios.get('https://xkcdapi.now.sh/' + this.number);
+        this.current = response.data;
+        this.loading = false;
+      } catch (error) {
+        console.log(error);
+      }
+    },
   }
 });
