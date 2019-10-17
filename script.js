@@ -55,7 +55,8 @@ let app = new Vue({
         Vue.set(app.comments, this.number, new Array);
       this.comments[this.number].push({
         author: this.addedName,
-        text: this.addedComment
+        text: this.addedComment,
+        currentDate: moment().format('MMMM Do YYYY, h:mm:ss a')
       });
       this.addedName = '';
       this.addedComment = '';
