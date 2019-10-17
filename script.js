@@ -70,8 +70,7 @@ let app = new Vue({
         });
       this.ratings[this.number].sum += rating;
       this.ratings[this.number].total += 1;
-    }
-  },
+    },
     computed: {
     month() {
       var month = new Array;
