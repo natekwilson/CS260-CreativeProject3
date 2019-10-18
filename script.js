@@ -40,7 +40,13 @@ let app = new Vue({
     nextComic() {
       this.number = this.current.num + 1;
       if (this.number > this.max)
-        this.number = this.max
+        this.number = this.max;
+    },
+    firstComic() {
+      this.number = 0;
+    },
+    lastComic() {
+      this.number = this.max;
     },
     getRandom(min, max) {
       min = Math.ceil(min);
