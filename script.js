@@ -13,7 +13,9 @@ let app = new Vue({
     addedName: '',
     addedComment: '',
     comments: {},
-    ratings: {},
+    ratings: {
+      avg: 0
+    },
 
 
   },
@@ -77,6 +79,7 @@ let app = new Vue({
         });
       this.ratings[this.number].sum += rating;
       this.ratings[this.number].total += 1;
+      this.ratings[this.number].avg = (this.ratings[this.number].sum / this.ratings[this.number].total);
     },
   },
     computed: {
