@@ -8,13 +8,14 @@
 </head>
 
 <body>
+<script src="https://unpkg.com/vue-star-rating/dist/star-rating.min.js"></script>
   <h1>XKCD Browser</h1>
   <div id="app">
     <div v-if="loading">
       <p>Loading...</p>
     </div>
     <div v-else>
-	    	<script src="https://unpkg.com/vue-star-rating/dist/star-rating.min.js"></script>
+	    	
       <p>
 	<button v-on:click="firstComic">First</button>      
         <button v-on:click="previousComic">Previous</button>
@@ -26,7 +27,7 @@
       <img v-bind:src="current.img" v-bind:alt="current.alt">
       <p>{{current.alt}}</p>
             <p><i>#{{current.num}}, drawn on {{current.day}} {{month}} {{current.year}}</i></p>
-	    <star-rating @rating-selected ="setRating"></star-rating>
+	    <star-rating v-bind:ratings.avg @rating-selected ="setRating"></star-rating>
       <h3>Add a Comment</h3>
       <form v-on:submit.prevent="addComment">
         <input v-model="addedName" placeholder="Name"></p>
@@ -38,7 +39,7 @@
       <div v-for="comment in comments[number]">
         <hr>
         <p>{{comment.text}}</p>
-        <p><i>-- {{comment.author}}</i></p>
+        <p><i>-- {{comment.author}} \t {{comment.currentDate}}</i></p>
       </div>
     </div>
   </div>
