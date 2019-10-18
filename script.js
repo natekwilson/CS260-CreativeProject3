@@ -100,6 +100,9 @@ let app = new Vue({
       month[10] = "November";
       month[11] = "December";
       return month[this.current.month - 1];
+    },
+      averageRating() {
+        return this.ratings[this.number].avg;
     }
   },
    watch: {
