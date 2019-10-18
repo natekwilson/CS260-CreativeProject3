@@ -28,6 +28,7 @@
       <p>{{current.alt}}</p>
             <p><i>#{{current.num}}, drawn on {{current.day}} {{month}} {{current.year}}</i></p>
 	    <star-rating v-bind:rating="ratings.avg" @rating-selected ="setRating"></star-rating>
+	    <p>Average Rating: {{ratings.avg}}</p>
       <h3>Add a Comment</h3>
       <form v-on:submit.prevent="addComment">
         <input v-model="addedName" placeholder="Name"></p>
@@ -39,7 +40,7 @@
       <div v-for="comment in comments[number]">
         <hr>
         <p>{{comment.text}}</p>
-        <p><i>-- {{comment.author}} \t {{comment.currentDate}}</i></p>
+        <p><i>-- {{comment.author}} 		 {{comment.currentDate}}</i></p>
       </div>
     </div>
   </div>
