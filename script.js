@@ -46,7 +46,7 @@ let app = new Vue({
         this.number = this.max;
     },
     firstComic() {
-      this.number = 0;
+      this.number = 1;
     },
     lastComic() {
       this.number = this.max;
@@ -80,7 +80,8 @@ let app = new Vue({
       this.ratings[this.number].sum += rating;
       this.ratings[this.number].total += 1;
       this.ratings[this.number].avg = (this.ratings[this.number].sum / this.ratings[this.number].total);
-    },
+      this.ratings.avg = (this.ratings[this.number].sum / this.ratings[this.number].total);
+},
   },
     computed: {
     month() {
@@ -102,6 +103,12 @@ let app = new Vue({
       return month[this.current.month - 1];
     },
       averageRating() {
+	if (!(this.number in this.ratings))
+        Vue.set(this.ratings, this.number, {
+          sum: 0,
+          total: 0,
+	  avg: 0
+        });
         return this.ratings[this.number].avg;
     }
   },
