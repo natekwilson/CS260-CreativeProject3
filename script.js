@@ -1,3 +1,4 @@
+Vue.component('star-rating', VueStarRating.default);
 let app = new Vue({
   el: '#app',
   data: {
