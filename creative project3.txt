@@ -1,0 +1,16 @@
+NameBible: Verse Helper
+Description:To demonstrate the use of a RESTFUL api for a simple school project that will
+Plan
+Basic › Review/Change
+Status
+  Live
+User Key
+4e71e6abb83fc1f53628ba1b82292669
+Add this as an api-key parameter to your API calls to report and authenticate.
+
+Commercial?
+Non-commercial
+Website
+cs260.natewilsonit.com
+Type
+Website
