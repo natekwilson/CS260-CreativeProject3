@@ -1,3 +1,18 @@
+var xhr = new XMLHttpRequest();
+xhr.withCredentials = false;
+
+xhr.addEventListener("readystatechange", function () {
+  if (this.readyState === this.DONE) {
+    console.log(this.responseText);
+  }
+});
+
+xhr.open("GET", "https://api.scripture.api.bible/v1/bibles");
+xhr.setRequestHeader(`api-key`, `4e71e6abb83fc1f53628ba1b82292669`);
+
+xhr.send(data);
+
+
 Vue.component('star-rating', VueStarRating.default);
 let app = new Vue({
   el: '#app',
