@@ -1,12 +1,62 @@
 NameBible: Verse Helper
 Description:To demonstrate the use of a RESTFUL api for a simple school project that will
 Plan
-Basic › Review/Change
+Basic â€º Review/Change
 Status
   Live
 User Key
 4e71e6abb83fc1f53628ba1b82292669
+KJV bible ID: de4e12af7f28f599-02
+World English Bible: 9879dbb7cfe39e4d-04
 Add this as an api-key parameter to your API calls to report and authenticate.
+
+#GET THE BOOKS
+var data = JSON.stringify(false);
+
+var xhr = new XMLHttpRequest();
+xhr.withCredentials = true;
+
+xhr.addEventListener("readystatechange", function () {
+  if (this.readyState === this.DONE) {
+    console.log(this.responseText);
+  }
+});
+
+xhr.open("GET", "https://api.scripture.api.bible/v1/bibles/9879dbb7cfe39e4d-04/books");
+
+xhr.send(data);
+#GET THE CHAPTERS
+var data = JSON.stringify(false);
+
+var xhr = new XMLHttpRequest();
+xhr.withCredentials = true;
+
+xhr.addEventListener("readystatechange", function () {
+  if (this.readyState === this.DONE) {
+    console.log(this.responseText);
+  }
+});
+
+xhr.open("GET", "https://api.scripture.api.bible/v1/bibles/bibleId/books/bookId/chapters");
+
+xhr.send(data);
+
+#GET THE VERSES
+var data = JSON.stringify(false);
+
+var xhr = new XMLHttpRequest();
+xhr.withCredentials = true;
+
+xhr.addEventListener("readystatechange", function () {
+  if (this.readyState === this.DONE) {
+    console.log(this.responseText);
+  }
+});
+
+xhr.open("GET", "https://api.scripture.api.bible/v1/bibles/bibleId/chapters/chapterId/verses");
+
+xhr.send(data);
+
 
 Commercial?
 Non-commercial
