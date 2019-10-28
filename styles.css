@@ -2,7 +2,7 @@ body {
     font-family: 'Montserrat', sans-serif;
     font-size: 16px;
     padding: 20px 100px 0px 100px;
-    background: #f3f3f3;
+    background: #5e6582;
 }
 .container {
   position: relative;
@@ -16,4 +16,22 @@ textarea {
     width: 100%;
     max-width: 500px;
     height: 100px;
+}
+
+#centerSpace{
+    margin: auto;
+    width: 95%;
+    padding: 10px;
+    background: #dddddd;
+}
+
+#centerMe{
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+}
+img {
+    position: center;
+    max-width: 100%;
+    max-height: auto;
 }

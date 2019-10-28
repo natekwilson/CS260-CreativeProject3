@@ -1,140 +1,69 @@
-var xhr = new XMLHttpRequest();
-xhr.withCredentials = false;
-
-xhr.addEventListener("readystatechange", function () {
-  if (this.readyState === this.DONE) {
-    console.log(this.responseText);
-  }
-});
-
-xhr.open("GET", "https://api.scripture.api.bible/v1/bibles");
-xhr.setRequestHeader(`api-key`, `4e71e6abb83fc1f53628ba1b82292669`);
-
-xhr.send(data);
-
-
-Vue.component('star-rating', VueStarRating.default);
 let app = new Vue({
   el: '#app',
   data: {
-    number: '',
-    max: '',
-    current: {
-      title: '',
-      img: '',
-      alt: ''
+    currentImage: {
+      download_uri: '',
+      quote_id: '',
     },
-    loading: true,
-    addedName: '',
-    addedComment: '',
-    comments: {},
-    ratings: {
-      avg: 0
+    currentQuote: {
+      quote: '',
+      author: '',
+      categories: []
     },
-
-
+    loading: true
   },
   created() {
-    this.xkcd();
+    this.quotesAction();
   },
   methods: {
-       async xkcd() {
+       async quotesAction(author, category) {
       try {
         this.loading = true;
-        const response = await axios.get('https://xkcdapi.now.sh/' + this.number);
-        this.current = response.data;
+
+        if (author) // AUTHOR parameter passed
+        {
+           const response = await axios.get('http://quotes.rest/quote/image/search?author=' + author +'&private=false', {headers: {"X-TheySaidSo-Api-Secret": "mc_siwch1kQUS3YIqKEwGgeF", "Accept": "application/json"}});
+           this.currentImage = response.data.contents.qimage
+           const responseQuote = await axios.get('http://quotes.rest/quote?id=' + this.currentImage.quote_id, {headers: {"X-TheySaidSo-Api-Secret": "mc_siwch1kQUS3YIqKEwGgeF", "Accept": "application/json"}});
+           this.currentQuote = responseQuote.data.contents;
+          }
+        else if (category) // CATEGORY parameter passed
+        {
+           const response = await axios.get('http://quotes.rest/quote/image/search?category=' + category + '&private=false', {headers: {"X-TheySaidSo-Api-Secret": "mc_siwch1kQUS3YIqKEwGgeF", "Accept": "application/json"}});
+           this.currentImage = response.data.contents.qimage
+           const responseQuote = await axios.get('http://quotes.rest/quote?id=' + this.currentImage.quote_id, {headers: {"X-TheySaidSo-Api-Secret": "mc_siwch1kQUS3YIqKEwGgeF", "Accept": "application/json"}});
+           this.currentQuote = responseQuote.data.contents;
+          }
+        else // DEFUALT, no parameters passed
+        {
+        const response = await axios.get('http://quotes.rest/quote/image/search?private=false', {headers: {"X-TheySaidSo-Api-Secret": "mc_siwch1kQUS3YIqKEwGgeF", "Accept": "application/json"}});
+        this.currentImage = response.data.contents.qimage
+        const responseQuote = await axios.get('http://quotes.rest/quote?id=' + this.currentImage.quote_id, {headers: {"X-TheySaidSo-Api-Secret": "mc_siwch1kQUS3YIqKEwGgeF", "Accept": "application/json"}});
+        this.currentQuote = responseQuote.data.contents;  
+      }
         this.loading = false;
-        this.number = response.data.num;
+
       } catch (error) {
-        this.number = this.max;
         console.log(error);
       }
     },
-    previousComic() {
-      this.number = this.current.num - 1;
-      if (this.number < 1)
-        this.number = 1;
+    NewRandomQuote() {
+      this.quotesAction();
     },
-    nextComic() {
-      this.number = this.current.num + 1;
-      if (this.number > this.max)
-        this.number = this.max;
+    NewQuoteSameAuthor() {
+      this.quotesAction( this.currentQuote.author);
     },
-    firstComic() {
-      this.number = 1;
-    },
-    lastComic() {
-      this.number = this.max;
-    },
-    getRandom(min, max) {
-      min = Math.ceil(min);
-      max = Math.floor(max);
-      return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum and minimum are inclusive
-    },
-    randomComic() {
-      this.number = this.getRandom(1, this.max);
-    },
-     addComment() {
-      if (!(this.number in this.comments))
-        Vue.set(app.comments, this.number, new Array);
-      this.comments[this.number].push({
-        author: this.addedName,
-        text: this.addedComment,
-        currentDate: moment().format('MMMM Do YYYY, h:mm:ss a')
-      });
-      this.addedName = '';
-      this.addedComment = '';
-    },
-    setRating(rating){
-      // Handle the rating
-      if (!(this.number in this.ratings))
-        Vue.set(this.ratings, this.number, {
-          sum: 0,
-          total: 0
-        });
-      this.ratings[this.number].sum += rating;
-      this.ratings[this.number].total += 1;
-      this.ratings[this.number].avg = (this.ratings[this.number].sum / this.ratings[this.number].total);
-      this.ratings.avg = (this.ratings[this.number].sum / this.ratings[this.number].total);
-},
+    NewQuoteSameCategory() {
+      this.quotesAction( '', this.currentQuote.categories[0]);
+    }
+
   },
     computed: {
-    month() {
-      var month = new Array;
-      if (this.current.month === undefined)
-        return '';
-      month[0] = "January";
-      month[1] = "February";
-      month[2] = "March";
-      month[3] = "April";
-      month[4] = "May";
-      month[5] = "June";
-      month[6] = "July";
-      month[7] = "August";
-      month[8] = "September";
-      month[9] = "October";
-      month[10] = "November";
-      month[11] = "December";
-      return month[this.current.month - 1];
-    },
-      averageRating() {
-	if (!(this.number in this.ratings))
-        Vue.set(this.ratings, this.number, {
-          sum: 0,
-          total: 0,
-	  avg: 0
-        });
-        return this.ratings[this.number].avg;
-    }
+
+
   },
    watch: {
-    number(value, oldvalue) {
-      if (oldvalue === '') {
-        this.max = value;
-      } else {
-        this.xkcd();
-      }
-    },
+
   }
 
 });
